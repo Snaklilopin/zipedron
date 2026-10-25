@@ -1,0 +1,163 @@
+{
+"sbr_interior_race": {
+    "information":{
+        "authors":"incolie",
+        "name":"Race Interior",
+        "value":5000,
+    },
+    "slotType" : "sbr_interior",
+    "slots": [
+        ["type", "default", "description"],
+        ["soundscape_horn", "soundscape_horn_110", "Horn"],
+        ["skin_interior","sbr_skin_interior", "Interior Color", {"coreSlot":true}],
+        ["sbr_gauges","sbr_gauges_race", "Gauge Cluster", {"coreSlot":true}],
+        ["sbr_shifter","sbr_shifter_SQ", "Shifter"],
+        ["sbr_rearint","sbr_rearint", "Rear Firewall"],
+        ["sbr_steer","sbr_steer_02b", "Steering Wheel"],
+        ["gps","","Navigation Unit", {"nodeOffset":{"x":0.04,"y":-0.635,"z":0.865}}],
+        ["sbr_seat_FR","sbr_race_seat_FR", "Passenger Seat"],
+        ["sbr_seat_FL","sbr_race_seat_FL", "Driver Seat"],
+        ["sbr_seats_R","", "Rear Seats"],
+    ],
+    "sounds": {
+        "$+cabinFilterCoef": 0.00
+    },
+    "soundscape": [
+        ["name", "src"],
+        //soundscape_indicator8
+        {"node:":"int_strw"},
+        ["indicatorStart", "event:>Vehicle>Interior>Indicator>FIPA_On"],
+        ["indicatorStop", "event:>Vehicle>Interior>Indicator>FIPA_Off"],
+        ["indLoop1", "event:>Vehicle>Interior>Indicator>AU5_V2_Click"],
+        ["indLoop2", "event:>Vehicle>Interior>Indicator>AU5_V2_Clack"],
+        //soundscape_lights11
+        ["LightOn", "event:>Vehicle>Interior>Light>CES2_On"],
+        ["LightOff", "event:>Vehicle>Interior>Light>CES2_On"],
+        //soundscape_handbrake2
+        {"node:":"int_pbrk"},
+        ["handbrakeDisengaged","event:>Vehicle>Interior>Handbrake_Electric>Electric_01_Unlock"],
+        ["handbrakeEngaging","event:>Vehicle>Interior>Handbrake_Electric>Electric_01_Lock"],
+        //affects horn location because horn soundscape is loaded after
+        {"node:":"f15"},
+    ],
+    "camerasInternal":[
+        ["type", "x", "y", "z", "fov", "id1:", "id2:", "id3:", "id4:", "id5:", "id6:"],
+        {"nodeWeight":1.9},
+        {"beamSpring":1400,"beamDamp":200},
+        {"selfCollision":true},
+        {"collision":true},
+        //dash cam
+        ["dash", 0.369, 0.19, 1.01, 55, "f1ll","f2r","f3ll","f4ll","f4r",[]{"beamDeform":5001000,"beamStrength":"FLT_MAX"}],
+    ],
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+         //interior
+         ["sbr_dash_race", ["sbr_dash"]],
+         ["sbr_intmirror", ["sbr_roof"]],
+    ],
+    "mirrors": [
+        ["mesh", "idRef:", "id1:", "id2:"],
+        ["sbr_intmirror","rf1","rf1r","rf2",{"refBaseTranslation":{"x":0.00,"y":-0.01,"z":-0.12},"baseRotationGlobal":{"x":5,"y":0,"z":19}}],
+    ],
+    "props": [
+        ["func",       "mesh",              "idRef:", "idX:", "idY:", "baseRotation",            "rotation",               "translation",           "min", "max", "offset", "multiplier"],
+        //pedals
+        ["brake",      "sbr_brakepedal",    "f1l","f1r","f6l",        {"x":0, "y":0, "z":180},   {"x":-20, "y":0, "z":0},   {"x":0.0, "y":0, "z":0}, 0, 1, 0, 1],
+        ["throttle",   "sbr_gaspedal",      "f1l","f1r","f6l",        {"x":0, "y":0, "z":180},   {"x":20, "y":0, "z":0},    {"x":0.0, "y":0, "z":0}, 0, 1, 0, 1],
+        //turn signal stalk
+        ["turnsignal", "sbr_signalstalk",   "f1l","f1r","f6l",        {"x":0, "y":0, "z":180},    {"x":0, "y":-13, "z":-8},  {"x":0, "y":0, "z":0}, -1, 1, 0, 1],
+        //wiper stalk
+        ["wipers",     "sbr_wiperstalk",    "f1l","f1r","f6l",        {"x":0, "y":0, "z":180},    {"x":0, "y":0, "z":0},     {"x":0, "y":0, "z":0}, -1, 1, 0, 1],
+    ],
+    "nodes": [
+         ["id", "posX", "posY", "posZ"],
+         {"frictionCoef":0.5},
+         {"nodeMaterial":"|NM_METAL"},
+         {"selfCollision":true},
+         {"collision":true},
+
+         //interior flexbody
+         {"group":"sbr_dash"},
+         {"nodeWeight":0.35},
+         ["dshr", -0.372, -0.585, 0.67],
+         ["dsh",   0.00, -0.585, 0.67],
+         ["dshl",  0.372, -0.585, 0.67],
+         ["int_strw",  0.372, -0.475, 0.72],
+         {"group":""},
+         {"nodeWeight":0.2},
+         ["int_pbrk", 0.04, -0.20, 0.52],
+         ["int_shft", 0.0, -0.35, 0.52],
+    ],
+    "torsionbars":[
+       ["id1:", "id2:", "id3:", "id4:"],
+       //rigify the column
+       {"spring":10000, "damp":1, "deform":18000, "strength":28000},
+       ["int_strw", "dshl", "dsh", "f5l"],
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1.0},
+
+          //dash board
+          {"beamSpring":439146.6,"beamDamp":71.73},
+          {"beamDeform":12400,"beamStrength":"FLT_MAX"},
+          {"deformLimitExpansion":""},
+          ["dshr","f5r"],
+          ["dshl","f5l"],
+          ["dshr","f6r"],
+          ["dshl","f6l"],
+          ["dshr","f1r"],
+          ["dshl","f1l"],
+          ["dshr","f5rr"],
+          ["dshl","f5ll"],
+          ["dshr","f6rr"],
+          ["dshl","f6ll"],
+          ["dshl","dshr"],
+          ["dsh","f5r"],
+          ["dsh","f5l"],
+          ["dsh","f6r"],
+          ["dsh","f6l"],
+          ["dsh","f1r"],
+          ["dsh","f1l"],
+          ["dshl","dsh"],
+          ["dshr","dsh"],
+          ["dsh","int_strw"],
+          ["dshl","int_strw"],
+          {"beamSpring":160100,"beamDamp":142.73},
+          {"beamDeform":70300,"beamStrength":"FLT_MAX"},
+          ["int_pbrk","f5l"],
+          ["int_pbrk","f5r"],
+          ["int_pbrk","f2r"],
+          ["int_pbrk","f2l"],
+          ["int_shft","f5l"],
+          ["int_shft","f5r"],
+          ["int_shft","f2r"],
+          ["int_shft","f2l"],
+
+          //--BLEED DEFORM LIMIT TO OTHER PARTS--
+          {"deformLimitExpansion":1.1},
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1.0},
+    ],
+    "triangles": [
+          ["id1:","id2:","id3:"],
+          {"group":"sbr_body"},
+          {"groundModel":"plastic"},
+          //Dashboard
+          {"dragCoef":0},
+          ["dshl", "f6ll", "f5ll"],
+          ["f6ll", "dshl", "f6l"],
+          ["f6l", "dshl", "dsh"],
+          ["dsh", "f6r", "f6l"],
+          ["dsh", "dshr", "f6r"],
+          ["f6r", "dshr", "f6rr"],
+          ["dshr", "f5rr", "f6rr"],
+          ["dshl", "f5ll", "f5l"],
+          ["f5l", "dsh", "dshl"],
+          ["f5l", "f5r", "dsh"],
+          ["dsh", "f5r", "dshr"],
+          ["dshr", "f5r", "f5rr"],
+
+          {"group":""},
+    ],
+},
+}
